@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comanda de Pedido</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    fieldset {
+      margin-bottom: 15px;
+      padding: 10px;
+    }
+    legend {
+      font-weight: bold;
+    }
+    label {
+      display: block;
+      margin: 5px 0;
+    }
+    button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Comanda de Pedido</h1>
+  
+  <!-- Formulario -->
+  <form id="comandaForm">
+    <!-- Pedido -->
+    <fieldset>
+      <legend>Pedido</legend>
+      <label><input type="checkbox" name="pedido" value="Ala"> Ala</label>
+      <label><input type="checkbox" name="pedido" value="Pierna"> Pierna</label>
+      <label><input type="checkbox" name="pedido" value="Pecho"> Pecho</label>
+      <label><input type="checkbox" name="pedido" value="Encuentro"> Encuentro</label>
+      <label><input type="checkbox" name="pedido" value="Salchipapa"> Salchipapa</label>
+      <label><input type="checkbox" name="pedido" value="Burguer"> Burguer</label>
+    </fieldset>
+
+    <!-- Complementos -->
+    <fieldset>
+      <legend>Complementos</legend>
+      <label><input type="radio" name="complemento" value="Completo"> Completo</label>
+      <label><input type="radio" name="complemento" value="Arroz + Papa"> Arroz + Papa</label>
+      <label><input type="radio" name="complemento" value="Solo Papa"> Solo Papa</label>
+      <label><input type="radio" name="complemento" value="Papa + Ensalada"> Papa + Ensalada</label>
+    </fieldset>
+
+    <!-- Cremas -->
+    <fieldset>
+      <legend>Cremas</legend>
+      <label><input type="checkbox" name="crema" value="Todo"> Todo</label>
+      <label><input type="checkbox" name="crema" value="Cremas Llevar"> Cremas Llevar</label>
+      <label><input type="checkbox" name="crema" value="Mayonesa"> Mayonesa</label>
+      <label><input type="checkbox" name="crema" value="Ketchup"> Ketchup</label>
+      <label><input type="checkbox" name="crema" value="Mostaza"> Mostaza</label>
+      <label><input type="checkbox" name="crema" value="Golf"> Golf</label>
+      <label><input type="checkbox" name="crema" value="Aceituna"> Aceituna</label>
+      <label><input type="checkbox" name="crema" value="Tartara"> Tártara</label>
+      <label><input type="checkbox" name="crema" value="Ocopa"> Ocopa</label>
+      <label><input type="checkbox" name="crema" value="BBQ"> BBQ</label>
+      <label><input type="checkbox" name="crema" value="Aji"> Ají</label>
+    </fieldset>
+
+    <!-- Porciones -->
+    <fieldset>
+      <legend>Porciones</legend>
+      <label><input type="checkbox" name="porcion" value="Arroz"> Arroz</label>
+      <label><input type="checkbox" name="porcion" value="Papa"> Papa</label>
+    </fieldset>
+
+    <!-- Bebidas -->
+    <fieldset>
+      <legend>Bebidas</legend>
+      <label><input type="radio" name="bebida" value="Chicha"> Chicha</label>
+      <label><input type="radio" name="bebida" value="Inka Cola"> Inka Cola</label>
+      <label><input type="radio" name="bebida" value="Coca Cola"> Coca Cola</label>
+    </fieldset>
+
+    <!-- Consumo -->
+    <fieldset>
+      <legend>Consumo</legend>
+      <label><input type="radio" name="consumo" value="Mesa"> Mesa</label>
+      <label><input type="radio" name="consumo" value="Llevar"> Llevar</label>
+    </fieldset>
+
+    <!-- Nombre -->
+    <fieldset>
+      <legend>Nombre</legend>
+      <label><input type="text" id="nombre" placeholder="Escribe el nombre del cliente" required></label>
+    </fieldset>
+
+    <!-- Botón de envío -->
+    <button type="submit">Generar Comanda</button>
+  </form>
+
+  <script>
+    document.getElementById('comandaForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Capturar los valores seleccionados
+      const nombre = document.getElementById('nombre').value;
+      const pedidos = [...document.querySelectorAll('input[name="pedido"]:checked')].map(el => el.value).join(', ');
+      const complemento = document.querySelector('input[name="complemento"]:checked')?.value || 'Ninguno';
+      const cremas = [...document.querySelectorAll('input[name="crema"]:checked')].map(el => el.value).join(', ');
+      const porciones = [...document.querySelectorAll('input[name="porcion"]:checked')].map(el => el.value).join(', ');
+      const bebida = document.querySelector('input[name="bebida"]:checked')?.value || 'Ninguna';
+      const consumo = document.querySelector('input[name="consumo"]:checked')?.value || 'Ninguno';
+
+      // Formato de la comanda
+      const comanda = `
+        **COMANDA DE PEDIDO**
+        ------------------------
+        Nombre del Cliente: ${nombre}
+        
+        *Pedido: ${pedidos}
+        *Complemento: ${complemento}
+        *Cremas: ${cremas}
+        *Porciones: ${porciones}
+        *Bebida: ${bebida}
+        *Consumo: ${consumo}
+
+        Fecha y Hora: ${new Date().toLocaleString()}
+      `;
+
+      // Mostrar en ventana de impresión
+      const ventanaImpresion = window.open('', '', 'width=600,height=400');
+      ventanaImpresion.document.write('<pre>' + comanda + '</pre>');
+      ventanaImpresion.document.close();
+      ventanaImpresion.print();
+    });
+  </script>
+</body>
+</html>
